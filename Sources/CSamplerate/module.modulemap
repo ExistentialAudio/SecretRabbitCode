@@ -1,0 +1,4 @@
+module CSamplerate {
+    header "../../libsamplerate/include/samplerate.h"
+    export *
+}
