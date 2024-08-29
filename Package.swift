@@ -27,7 +27,6 @@ let package = Package(
             cSettings: [
                 .define("PACKAGE", to: "\"SecretRabbitCode\""),
                 .define("VERSION", to: "\"1.0.0\""),
-                .headerSearchPath("include"),
                 .unsafeFlags(["-include", "stdbool.h"])
             ]
         ),
