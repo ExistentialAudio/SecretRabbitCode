@@ -1,24 +1,30 @@
 import CSamplerate
 
 public class SecretRabbitCode {
-    public init() {}
+    private var converter: OpaquePointer?
+    private var error: Int32 = 0
 
-    public func convertSampleRate(input: [Float], fromRate: Int, toRate: Int) -> [Float]? {
-        var error: Int32 = 0
-        let channels: Int32 = 1
-        let converterType = Int32(SRC_LINEAR)
-
-        let converter = src_new(converterType, channels, &error)
+    public init?(
+        converterType: Int32 = Int32(SRC_LINEAR),
+        channels: Int32 = 1
+    ) {
+        self.converter = src_new(converterType, channels, &error)
         guard error == 0 else {
-            // printError(error)
+            SecretRabbitCode.printError(error)
             return nil
         }
+    }
 
+    deinit {
+        src_delete(converter)
+    }
+
+    public func convertSampleRate(input: [Float], fromRate: Int, toRate: Int) -> [Float]? {
         var data_out = [Float](repeating: 0, count: input.count * toRate / fromRate)
-        var data_in = input.withUnsafeBufferPointer { buffer in
+        var data_in = input.withUnsafeBufferPointer { buffer_in in
             return data_out.withUnsafeMutableBufferPointer { buffer_out in
                 return SRC_DATA(
-                    data_in: buffer.baseAddress,
+                    data_in: buffer_in.baseAddress,
                     data_out: buffer_out.baseAddress,
                     input_frames: input.count,
                     output_frames: input.count * toRate / fromRate,
@@ -31,18 +37,17 @@ public class SecretRabbitCode {
         }
 
         error = src_process(converter, &data_in)
-        src_delete(converter)
+
         guard error == 0 else {
-            // printError(error)
+            SecretRabbitCode.printError(error)
             return nil
         }
 
         return data_out
     }
-}
 
-private func printError(_ error: Int32) {
-    if error != 0 {
-        print("Error: ", String(cString: src_strerror(error)!))
+    static func printError(_ error: Int32) {
+        let errorString = String(cString: src_strerror(error))
+        print("SRC error: \(errorString)")
     }
 }
