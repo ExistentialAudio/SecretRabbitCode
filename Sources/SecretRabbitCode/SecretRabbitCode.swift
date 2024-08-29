@@ -5,11 +5,17 @@ public class SecretRabbitCode {
 
     public func convertSampleRate(input: [Float], fromRate: Int, toRate: Int) -> [Float]? {
         var error: Int32 = 0
-        let converter = src_new(Int32(SRC_SINC_BEST_QUALITY), 1, &error)
-        guard error == 0 else { return nil }
+        let channels: Int32 = 1
+        let converterType = Int32(SRC_LINEAR)
+
+        let converter = src_new(converterType, channels, &error)
+        guard error == 0 else {
+            // printError(error)
+            return nil
+        }
 
         var data_out = [Float](repeating: 0, count: input.count * toRate / fromRate)
-        var data_in = input.withUnsafeBufferPointer { buffer in 
+        var data_in = input.withUnsafeBufferPointer { buffer in
             return data_out.withUnsafeMutableBufferPointer { buffer_out in
                 return SRC_DATA(
                     data_in: buffer.baseAddress,
@@ -26,8 +32,17 @@ public class SecretRabbitCode {
 
         error = src_process(converter, &data_in)
         src_delete(converter)
-        guard error == 0 else { return nil }
+        guard error == 0 else {
+            // printError(error)
+            return nil
+        }
 
         return data_out
+    }
+}
+
+private func printError(_ error: Int32) {
+    if error != 0 {
+        print("Error: ", String(cString: src_strerror(error)!))
     }
 }
