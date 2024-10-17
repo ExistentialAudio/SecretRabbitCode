@@ -7,7 +7,11 @@ let package = Package(
         .library(
             name: "SecretRabbitCode",
             targets: ["SecretRabbitCode"]
-        )
+        ),
+        .library(
+            name: "CSamplerate",
+            targets: ["CSamplerate"]
+        ),
     ],
     targets: [
         .target(
@@ -20,14 +24,14 @@ let package = Package(
             exclude: [
                 "src/CMakeLists.txt",
                 "src/check_asm.sh",
-                "src/Version_script.in"
+                "src/Version_script.in",
             ],
             sources: ["src"],
             publicHeadersPath: "include",
             cSettings: [
                 .define("PACKAGE", to: "\"SecretRabbitCode\""),
                 .define("VERSION", to: "\"1.0.0\""),
-                .unsafeFlags(["-include", "stdbool.h"])
+                .unsafeFlags(["-include", "stdbool.h"]),
             ]
         ),
         .testTarget(
