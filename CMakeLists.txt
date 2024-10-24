@@ -10,16 +10,6 @@ add_library(SecretRabbitCode SHARED
     Sources/SecretRabbitCode/SecretRabbitCode.swift
 )
 
-# might or might be not needed later
-# set_target_properties(SecretRabbitCode PROPERTIES
-#     INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_Swift_MODULE_DIRECTORY}
-# )
-
-# Ensure the module map for CSamplerate is included
-set_target_properties(SecretRabbitCode PROPERTIES
-  PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/Sources/CSamplerate/module.modulemap
-)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Sources/CSamplerate/)
 add_library(CSamplerate ALIAS samplerate)
 

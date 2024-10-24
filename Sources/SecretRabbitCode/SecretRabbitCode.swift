@@ -1,4 +1,4 @@
-import CSamplerate
+@_implementationOnly import CSamplerate
 
 
 enum SecretRabbitCodeError: Error {
@@ -19,10 +19,10 @@ public class SecretRabbitCode {
     private var error: Int32 = 0
 
     public init(
-        converterType: Int32 = Int32(SRC_LINEAR),
+        converterType: Int32? = nil,
         channels: Int32 = 1
     ) throws {
-        self.converter = src_new(converterType, channels, &error)
+        self.converter = src_new(converterType ?? Int32(SRC_LINEAR), channels, &error)
         guard error == 0 else {
             throw SecretRabbitCodeError.InitalizationFailed(description: String(from: error))
         }
