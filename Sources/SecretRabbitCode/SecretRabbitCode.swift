@@ -1,4 +1,4 @@
-@_implementationOnly import CSamplerate
+internal import CSamplerate
 
 
 enum SecretRabbitCodeError: Error {
