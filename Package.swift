@@ -34,7 +34,6 @@ let package = Package(
                 .define("ENABLE_SINC_BEST_CONVERTER", to: "1"),
                 .define("ENABLE_SINC_MEDIUM_CONVERTER", to: "1"),
                 .define("ENABLE_SINC_FAST_CONVERTER", to: "1"),
-                .unsafeFlags(["-include", "stdbool.h"]),
             ]
         ),
         .testTarget(

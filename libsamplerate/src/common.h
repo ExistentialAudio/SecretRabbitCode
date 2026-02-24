@@ -10,9 +10,7 @@
 #define COMMON_H_INCLUDED
 
 #include <stdint.h>
-#ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
-#endif
 
 #if defined(__x86_64__) || defined(_M_X64)
 #   define HAVE_SSE2_INTRINSICS
