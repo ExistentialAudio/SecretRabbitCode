@@ -34,6 +34,7 @@ let package = Package(
                 .define("ENABLE_SINC_BEST_CONVERTER", to: "1"),
                 .define("ENABLE_SINC_MEDIUM_CONVERTER", to: "1"),
                 .define("ENABLE_SINC_FAST_CONVERTER", to: "1"),
+                .define("HAVE_STDBOOL_H", to: "1"),
             ]
         ),
         .testTarget(
