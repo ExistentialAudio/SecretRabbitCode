@@ -13,6 +13,7 @@
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
 #endif
+
 #if defined(__x86_64__) || defined(_M_X64)
 #   define HAVE_SSE2_INTRINSICS
 #elif defined(ENABLE_SSE2_LRINT) && (defined(_M_IX86) || defined(__i386__))
