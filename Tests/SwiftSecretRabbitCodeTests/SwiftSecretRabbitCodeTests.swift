@@ -1,28 +1,40 @@
-import XCTest
+import Testing
 
 @testable import SecretRabbitCode
 
-final class SecretRabbitCodeTests: XCTestCase {
-    func testSampleRateConversion() throws {
+struct SecretRabbitCodeTests {
+    @Test func testSampleRateConversion() async throws {
+        let inputSampleRate = 44100.0
+        let outputSampleRate = 48000.0
         let src = try SecretRabbitCode()
-        let input: [Float] = [Float](repeating: 1.0, count: 44100)
-        let output = try src.convertSampleRate(of: input, from: 44100, to: 48000)
-        XCTAssertEqual(output.count, 48000)
+        let input: [Float] = [Float](repeating: 1.0, count: Int(inputSampleRate))
+        
+        // We need extra space in the output buffer
+        var output: [Float] = [Float](repeating: 1.0, count: Int(outputSampleRate) * 2)
+        let outputFrameCount = try src.process(inputData: input, outputData: &output, ratio: outputSampleRate/inputSampleRate)
+        
+        // The generated frames will be either 48000 +- 1
+        #expect((47999...48001).contains(outputFrameCount))
     }
-
-    func testSampleRateConversionError() throws {
+    
+    @Test func testSampleRateConversionError() async throws {
         let src = try SecretRabbitCode()
         let input: [Float] = [0.0, 1.0, 0.0, -1.0, 0.0]
-        XCTAssertThrowsError(try src.convertSampleRate(of: input, from: 44100, to: 0))
+        var output = [Float]()
+        #expect(throws: SecretRabbitCodeError.ConversionFailed(description: "Output buffer is full before all input was consumed.")) {
+            try src.process(inputData: input, outputData: &output, ratio: 0)
+        }
     }
-
-    func testPerformance() throws {
-        let src = try SecretRabbitCode()
-        let input: [Float] = [Float](repeating: 1.0, count: 44100)
-        measure {
-            for _ in 0 ..< 100 {
-                let _ = try! src.convertSampleRate(of: input, from: 44100, to: 48000)
-            }
+    
+    @Test func testPerformance() async throws {
+        let src = try SecretRabbitCode(converterType: .bestQuality)
+        let inputSampleRate = 44100.0
+        let outputSampleRate = 48000.0
+        let input: [Float] = [Float](repeating: 1.0, count: Int(inputSampleRate))
+        var output: [Float] = [Float](repeating: 1.0, count: Int(outputSampleRate) * 2)
+        for _ in 0 ..< 100 {
+            let outputFrameCount = try! src.process(inputData: input, outputData: &output, ratio: outputSampleRate/inputSampleRate)
         }
     }
 }
+
