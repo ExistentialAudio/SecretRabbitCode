@@ -21,7 +21,7 @@ public class SecretRabbitCode {
 
 extension SecretRabbitCode {
     
-    func process (
+    public func process (
         inputData: [Float],
         outputData: inout [Float],
         ratio: Double
