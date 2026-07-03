@@ -23,14 +23,15 @@ extension SecretRabbitCode {
     
     public func process (
         inputData: [Float],
+        inputFrameCount: Int,
         outputData: inout [Float],
         ratio: Double
     ) throws -> Int {
         var totalInputFramesUsed: Int = 0
         var totalOutputFramesGenerated: Int = 0
 
-        while totalInputFramesUsed < inputData.count {
-            let remainingInputFrames = inputData.count - totalInputFramesUsed
+        while totalInputFramesUsed < inputFrameCount {
+            let remainingInputFrames = inputFrameCount - totalInputFramesUsed
             let remainingOutputFrames = outputData.count - totalOutputFramesGenerated
 
             guard remainingOutputFrames > 0 else {
