@@ -6,8 +6,14 @@
 //
 internal import CSamplerate
 
-public enum SecretRabbitCodeError: Error, Equatable {
+public enum SecretRabbitCodeError: Error {
     case InitalizationFailed(description: String)
     case ConversionFailed(description: String)
     case unusedInputFrames
 }
+
+extension SecretRabbitCodeError: Equatable { }
+
+extension SecretRabbitCodeError: Hashable { }
+
+extension SecretRabbitCodeError: Sendable { }
