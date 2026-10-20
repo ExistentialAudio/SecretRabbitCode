@@ -6,7 +6,7 @@
 //
 internal import CSamplerate
 
-enum SecretRabbitCodeError: Error, Equatable {
+public enum SecretRabbitCodeError: Error, Equatable {
     case InitalizationFailed(description: String)
     case ConversionFailed(description: String)
     case unusedInputFrames

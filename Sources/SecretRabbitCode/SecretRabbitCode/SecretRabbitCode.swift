@@ -7,10 +7,10 @@ public class SecretRabbitCode {
     public init(
         converterType: ConverterType = .linear,
         channels: Int32 = 1
-    ) throws {
+    ) throws(SecretRabbitCodeError) {
         self.converter = src_new(converterType.rawValue, channels, &error)
         guard error == 0 else {
-            throw SecretRabbitCodeError.InitalizationFailed(description: String(from: error))
+            throw .InitalizationFailed(description: String(from: error))
         }
     }
 
@@ -26,7 +26,7 @@ extension SecretRabbitCode {
         inputFrameCount: Int,
         outputData: inout [Float],
         ratio: Double
-    ) throws -> Int {
+    ) throws(SecretRabbitCodeError) -> Int {
         var totalInputFramesUsed: Int = 0
         var totalOutputFramesGenerated: Int = 0
 
