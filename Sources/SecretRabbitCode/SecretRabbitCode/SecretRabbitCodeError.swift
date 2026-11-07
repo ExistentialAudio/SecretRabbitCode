@@ -7,8 +7,8 @@
 internal import CSamplerate
 
 public enum SecretRabbitCodeError: Error {
-    case InitalizationFailed(description: String)
-    case ConversionFailed(description: String)
+    case initalizationFailed(description: String)
+    case conversionFailed(description: String)
     case unusedInputFrames
 }
 

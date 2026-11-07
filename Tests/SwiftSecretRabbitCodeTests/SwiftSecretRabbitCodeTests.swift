@@ -21,7 +21,7 @@ struct SecretRabbitCodeTests {
         let src = try SecretRabbitCode()
         let input: [Float] = [0.0, 1.0, 0.0, -1.0, 0.0]
         var output = [Float]()
-        #expect(throws: SecretRabbitCodeError.ConversionFailed(description: "Output buffer is full before all input was consumed.")) {
+        #expect(throws: SecretRabbitCodeError.conversionFailed(description: "Output buffer is full before all input was consumed.")) {
             try src.process(inputData: input, inputFrameCount: input.count,outputData: &output, ratio: 0)
         }
     }
