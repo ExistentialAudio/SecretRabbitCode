@@ -10,6 +10,7 @@ public enum SecretRabbitCodeError: Error {
     case initalizationFailed(description: String)
     case conversionFailed(description: String)
     case unusedInputFrames
+    case resetFailed(description: String)
 }
 
 extension SecretRabbitCodeError: Equatable { }

@@ -25,6 +25,14 @@ public class SecretRabbitCode {
 
 extension SecretRabbitCode {
     
+    public func reset() throws(SecretRabbitCodeError) {
+        let status = src_reset(converter)
+        
+        guard status == 0 else {
+            throw .conversionFailed(description: String(from: status))
+        }
+    }
+    
     public func process (
         inputData: [Float],
         inputFrameCount: Int,
